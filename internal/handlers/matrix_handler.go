@@ -12,7 +12,7 @@ func EchoHandler(w http.ResponseWriter, r *http.Request) {
 	records, err := utils.ReadCSVFromRequest(r, "file")
 
 	if err != nil {
-		w.Write([]byte(fmt.Sprintf("error: %s", err.Error())))
+		utils.RespondWithError(w, http.StatusBadRequest, err)
 		return
 	}
 
@@ -24,7 +24,7 @@ func InvertHandler(w http.ResponseWriter, r *http.Request) {
 	records, err := utils.ReadCSVFromRequest(r, "file")
 
 	if err != nil {
-		w.Write([]byte(fmt.Sprintf("error: %s", err.Error())))
+		utils.RespondWithError(w, http.StatusBadRequest, err)
 		return
 	}
 
@@ -36,7 +36,7 @@ func FlattenHandler(w http.ResponseWriter, r *http.Request) {
 	records, err := utils.ReadCSVFromRequest(r, "file")
 
 	if err != nil {
-		w.Write([]byte(fmt.Sprintf("error: %s", err.Error())))
+		utils.RespondWithError(w, http.StatusBadRequest, err)
 		return
 	}
 
@@ -48,7 +48,7 @@ func SumHandler(w http.ResponseWriter, r *http.Request) {
 	records, err := utils.ReadCSVFromRequest(r, "file")
 
 	if err != nil {
-		w.Write([]byte(fmt.Sprintf("error: %s", err.Error())))
+		utils.RespondWithError(w, http.StatusBadRequest, err)
 		return
 	}
 
@@ -56,7 +56,7 @@ func SumHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(response)
 
 	if err != nil {
-		w.Write([]byte(fmt.Sprintf("error: %s", err.Error())))
+		utils.RespondWithError(w, http.StatusBadRequest, err)
 		return
 	}
 
@@ -68,14 +68,14 @@ func MultiplyHandler(w http.ResponseWriter, r *http.Request) {
 	records, err := utils.ReadCSVFromRequest(r, "file")
 
 	if err != nil {
-		w.Write([]byte(fmt.Sprintf("error: %s", err.Error())))
+		utils.RespondWithError(w, http.StatusBadRequest, err)
 		return
 	}
 
 	response, err := models.NewMatrix(records).Multiply()
 
 	if err != nil {
-		w.Write([]byte(fmt.Sprintf("error: %s", err.Error())))
+		utils.RespondWithError(w, http.StatusBadRequest, err)
 		return
 	}
 

@@ -53,15 +53,9 @@ func (m *Matrix) Flatten() string {
 
 // Sum adds up all numbers in the given matrix and returns the sum
 func (m *Matrix) Sum() (int, error) {
-	if len(m.numbers) == 0 || len(m.numbers[0]) == 0 {
-		return 0, utils.ErrEmptyMatrix
-	}
-
-	numCols := len(m.numbers[0])
-	for i := 1; i < len(m.numbers); i++ {
-		if len(m.numbers[i]) != numCols {
-			return 0, utils.ErrNonRectangularMatrix
-		}
+	i, err, done := m.Validate()
+	if done {
+		return i, err
 	}
 
 	sum := 0
@@ -78,17 +72,25 @@ func (m *Matrix) Sum() (int, error) {
 	return sum, nil
 }
 
-// Sum multiplies all numbers in the given matrix and returns the value
-func (m *Matrix) Multiply() (int, error) {
+func (m *Matrix) Validate() (int, error, bool) {
 	if len(m.numbers) == 0 || len(m.numbers[0]) == 0 {
-		return 0, utils.ErrEmptyMatrix
+		return 0, utils.ErrEmptyMatrix, true
 	}
 
 	numCols := len(m.numbers[0])
 	for i := 1; i < len(m.numbers); i++ {
 		if len(m.numbers[i]) != numCols {
-			return 0, utils.ErrNonRectangularMatrix
+			return 0, utils.ErrNonRectangularMatrix, true
 		}
+	}
+	return 0, nil, false
+}
+
+// Multiply multiplies all numbers in the given matrix and returns the value
+func (m *Matrix) Multiply() (int, error) {
+	i, err, done := m.Validate()
+	if done {
+		return i, err
 	}
 
 	product := 1
